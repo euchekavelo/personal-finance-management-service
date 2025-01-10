@@ -1,6 +1,7 @@
 package ru.promo_z.personalfinancemanagementservice.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.promo_z.personalfinancemanagementservice.dto.request.BudgetRequestDto;
@@ -10,8 +11,10 @@ import ru.promo_z.personalfinancemanagementservice.exception.CategoryNotFoundExc
 import ru.promo_z.personalfinancemanagementservice.mapper.BudgetMapper;
 import ru.promo_z.personalfinancemanagementservice.model.Budget;
 import ru.promo_z.personalfinancemanagementservice.model.Category;
+import ru.promo_z.personalfinancemanagementservice.model.User;
 import ru.promo_z.personalfinancemanagementservice.repository.BudgetRepository;
 import ru.promo_z.personalfinancemanagementservice.repository.CategoryRepository;
+import ru.promo_z.personalfinancemanagementservice.security.AuthUser;
 import ru.promo_z.personalfinancemanagementservice.service.BudgetService;
 
 @Service
@@ -40,13 +43,22 @@ public class BudgetServiceImpl implements BudgetService {
             throw new BudgetIncorrectException("The budget amount must be greater than zero.");
         }
 
-        Category category = categoryRepository.findById(budgetRequestDto.getCategoryId())
-                .orElseThrow(() -> new CategoryNotFoundException("The category with the specified ID was not found."));
+        User user = getAuthUser();
+
+        Category category = categoryRepository.findByIdAndUser_Id(budgetRequestDto.getCategoryId(), user.getId())
+                .orElseThrow(() -> new CategoryNotFoundException("The category with the specified ID was not found " +
+                        "for current user."));
 
         budgetRepository.deleteByCategoryId(category.getId());
         Budget newBudget = budgetMapper.budgetRequestDtoToBudget(budgetRequestDto);
         newBudget.setCategory(category);
 
         return budgetMapper.budgetToBudgetResponseDto(budgetRepository.saveAndFlush(newBudget));
+    }
+
+    private User getAuthUser() {
+        AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return authUser.getUser();
     }
 }

@@ -7,5 +7,6 @@ import ru.promo_z.personalfinancemanagementservice.exception.CategoryNotFoundExc
 
 public interface BudgetService {
 
-    BudgetResponseDto setBudget(BudgetRequestDto budgetRequestDto) throws BudgetIncorrectException, CategoryNotFoundException;
+    BudgetResponseDto setBudget(BudgetRequestDto budgetRequestDto) throws BudgetIncorrectException,
+            CategoryNotFoundException;
 }

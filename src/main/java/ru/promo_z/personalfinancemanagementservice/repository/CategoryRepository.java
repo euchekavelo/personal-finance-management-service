@@ -11,4 +11,6 @@ import java.util.UUID;
 public interface CategoryRepository extends JpaRepository<Category, UUID> {
 
     Optional<Category> findByTitleAndUser_Email(String title, String email);
+
+    Optional<Category> findByIdAndUser_Id(UUID categoryId, UUID userId);
 }

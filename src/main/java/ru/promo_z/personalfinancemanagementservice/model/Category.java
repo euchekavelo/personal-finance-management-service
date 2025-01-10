@@ -1,6 +1,5 @@
 package ru.promo_z.personalfinancemanagementservice.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,14 +25,11 @@ public class Category {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonManagedReference
     private User user;
 
     @OneToOne(mappedBy = "category", cascade = CascadeType.ALL)
-    @JsonManagedReference
     private Budget budget;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "category", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private List<Operation> operationList = new ArrayList<>();
 }
