@@ -1,5 +1,7 @@
 package ru.promo_z.personalfinancemanagementservice.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +25,16 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<UserResponseDto> registerUser(@RequestBody UserRequestDto userRequestDto)
+    @SecurityRequirements
+    public ResponseEntity<UserResponseDto> registerUser(@RequestBody @Valid UserRequestDto userRequestDto)
             throws RegistrationException {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(userRequestDto));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenResponseDto> loginUser(@RequestBody UserRequestDto userRequestDto)
+    @SecurityRequirements
+    public ResponseEntity<TokenResponseDto> loginUser(@RequestBody @Valid UserRequestDto userRequestDto)
             throws UserNotFoundException {
 
         return ResponseEntity.ok(userService.loginUser(userRequestDto));

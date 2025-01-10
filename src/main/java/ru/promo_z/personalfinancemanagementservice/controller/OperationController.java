@@ -1,5 +1,6 @@
 package ru.promo_z.personalfinancemanagementservice.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class OperationController {
     }
 
     @PostMapping
-    public ResponseEntity<OperationResponseDto> createOperation(@RequestBody OperationRequestDto operationRequestDto)
+    public ResponseEntity<OperationResponseDto> createOperation(@RequestBody @Valid OperationRequestDto operationRequestDto)
             throws WalletNotFoundException, CategoryNotFoundException, OperationIncorrectException {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(operationService.createOperation(operationRequestDto));

@@ -1,5 +1,6 @@
 package ru.promo_z.personalfinancemanagementservice.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.promo_z.personalfinancemanagementservice.dto.request.CategoriesStatisticsRequestDto;
 import ru.promo_z.personalfinancemanagementservice.dto.response.BudgetStatisticsResponseDto;
 import ru.promo_z.personalfinancemanagementservice.dto.response.IncomeExpenseStatisticsResponseDto;
+import ru.promo_z.personalfinancemanagementservice.exception.CategoryNotFoundException;
 import ru.promo_z.personalfinancemanagementservice.service.StatisticsService;
 
 @RestController
@@ -34,7 +36,8 @@ public class StatisticsController {
 
     @GetMapping("/incomes-expenses-by-categories")
     public ResponseEntity<IncomeExpenseStatisticsResponseDto> getIncomeAndExpenseStatisticsByCategories(
-            @RequestBody CategoriesStatisticsRequestDto categoriesStatisticsRequestDto) {
+            @RequestBody @Valid CategoriesStatisticsRequestDto categoriesStatisticsRequestDto)
+            throws CategoryNotFoundException {
 
         return ResponseEntity
                 .ok(statisticsService.getIncomeAndExpenseStatisticsByCategories(categoriesStatisticsRequestDto));

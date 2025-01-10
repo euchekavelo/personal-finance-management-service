@@ -46,17 +46,7 @@ public class OperationServiceImpl implements OperationService {
                 .orElseThrow(() -> new CategoryNotFoundException("No category found for the specified user."));
 
         String operationType = operationRequestDto.getOperationType();
-        if (!(operationType.equals(OperationType.EXPENSE.toString())
-                || operationType.equals(OperationType.INCOME.toString()))) {
-
-            throw new OperationIncorrectException("Incorrect operation type. Acceptable: "
-                    + OperationType.EXPENSE + " and " + OperationType.INCOME + ".");
-        }
-
         long amount = operationRequestDto.getAmount();
-        if (amount <= 0) {
-            throw new OperationIncorrectException("The operation amount must be greater than zero.");
-        }
 
         if (operationType.equals(OperationType.EXPENSE.toString()) && (wallet.getBalance() - amount < 0)) {
             throw new OperationIncorrectException("The operation cannot be performed because there " +
