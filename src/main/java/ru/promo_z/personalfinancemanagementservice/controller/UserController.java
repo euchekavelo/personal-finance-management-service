@@ -1,5 +1,6 @@
 package ru.promo_z.personalfinancemanagementservice.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<UserResponseDto> registerUser(@RequestBody UserRequestDto userRequestDto)
+    public ResponseEntity<UserResponseDto> registerUser(@RequestBody @Valid UserRequestDto userRequestDto)
             throws RegistrationException {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(userRequestDto));
