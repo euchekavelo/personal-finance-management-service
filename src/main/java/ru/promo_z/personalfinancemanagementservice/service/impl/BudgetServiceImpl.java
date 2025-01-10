@@ -35,14 +35,7 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Transactional
     @Override
-    public BudgetResponseDto setBudget(BudgetRequestDto budgetRequestDto) throws BudgetIncorrectException,
-            CategoryNotFoundException {
-
-        long budgetAmount = budgetRequestDto.getAmount();
-        if (budgetAmount <= 0 ) {
-            throw new BudgetIncorrectException("The budget amount must be greater than zero.");
-        }
-
+    public BudgetResponseDto setBudget(BudgetRequestDto budgetRequestDto) throws CategoryNotFoundException {
         User user = getAuthUser();
 
         Category category = categoryRepository.findByIdAndUser_Id(budgetRequestDto.getCategoryId(), user.getId())

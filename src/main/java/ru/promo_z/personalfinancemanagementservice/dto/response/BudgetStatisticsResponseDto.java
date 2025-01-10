@@ -9,5 +9,5 @@ import java.util.List;
 @Builder
 public class BudgetStatisticsResponseDto {
 
-    List<BudgetCategoryResponseDto> budgetStatus;
+    private List<BudgetCategoryResponseDto> budgetStatus;
 }

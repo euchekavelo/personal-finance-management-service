@@ -1,5 +1,6 @@
 package ru.promo_z.personalfinancemanagementservice.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class BudgetController {
     }
 
     @PostMapping
-    public ResponseEntity<BudgetResponseDto> setBudget(@RequestBody BudgetRequestDto budgetRequestDto)
+    public ResponseEntity<BudgetResponseDto> setBudget(@RequestBody @Valid BudgetRequestDto budgetRequestDto)
             throws BudgetIncorrectException, CategoryNotFoundException {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(budgetService.setBudget(budgetRequestDto));

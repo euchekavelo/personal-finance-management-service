@@ -1,5 +1,6 @@
 package ru.promo_z.personalfinancemanagementservice.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +36,8 @@ public class StatisticsController {
 
     @GetMapping("/incomes-expenses-by-categories")
     public ResponseEntity<IncomeExpenseStatisticsResponseDto> getIncomeAndExpenseStatisticsByCategories(
-            @RequestBody CategoriesStatisticsRequestDto categoriesStatisticsRequestDto) throws CategoryNotFoundException {
+            @RequestBody @Valid CategoriesStatisticsRequestDto categoriesStatisticsRequestDto)
+            throws CategoryNotFoundException {
 
         return ResponseEntity
                 .ok(statisticsService.getIncomeAndExpenseStatisticsByCategories(categoriesStatisticsRequestDto));
